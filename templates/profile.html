@@ -1,0 +1,121 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile - YouTube Audio Downloader</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    /* 스타일을 기존 HTML과 비슷하게 설정 */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+
+    .container {
+        width: 50%;
+        margin: 100px auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    .header {
+        display: flex;
+        justify-content: center;
+        padding: 0;
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100%;
+        background-color: #333;
+        color: white;
+    }
+
+    .header a {
+        color: white;
+        padding: 10px;
+        text-decoration: none;
+        margin-left: 20px;
+        text-align: center;
+        font-size: 30px;
+    }
+
+    .header a:hover {
+        background-color: #555;
+        border-radius: 5px;
+    }
+
+    .downloads-list {
+        margin-top: 20px;
+    }
+
+    .download-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .download-item img {
+        width: 80px;
+        height: 80px;
+        margin-right: 20px;
+    }
+
+    .download-item .details {
+        flex: 1;
+    }
+
+    .delete-account {
+        color: red;
+        text-align: center;
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+    <div class="header">
+        <h1><a href="{{ url_for('index') }}">YouTube Audio Downloader</a></h1>
+    </div>
+
+    <div class="container">
+        <h1>{{ username }}'s Profile</h1>
+
+        <div class="downloads-list">
+            <h2>Recent Downloads</h2>
+            {% if downloads %}
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">YouTube Link</th>
+                            <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Format</th>
+                            <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;"> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for download in downloads %}
+                            <tr>
+                                <td style="padding: 8px; border-bottom: 1px solid #ddd;">
+                                    <a href="{{ url_for('redirect_video', video_url=download['video_url']) }}" target="_blank">{{ download.video_title }}</a>
+                                </td>
+                                <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{ download.format }} </td>
+                                <td style="padding: 8px; border-bottom: 1px solid #ddd;">
+                                    <a href="{{ url_for('delete_download', index=loop.index0) }}" class="delete-btn">X</a>  <!-- 삭제 버튼 -->
+                                </td>                                
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No recent downloads.</p>
+            {% endif %}
+        </div>
+
+        <div class="delete-account">
+            <a href="{{ url_for('delete_account') }}">Delete Account</a>
+        </div>
+    </div>
+</body>

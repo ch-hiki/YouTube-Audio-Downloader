@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Audio Downloader</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 50%;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        input, select {
+            padding: 10px;
+            margin-bottom: 20px;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error {
+            color: red;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+        }
+
+        .header a {
+            color: white;
+            padding: 10px;
+            text-align: center;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 16px;
+        }
+
+        .header a:hover {
+            background-color: #555;
+            border-radius: 5px;
+        }
+
+        .user-name {
+            background-color: #4CAF50;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            margin-left: 10px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    {% if username %}
+        <span class="user-name"> <a href="{{ url_for('profile') }}">{{ username }}</a> </span>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    {% else %}
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}">Register</a>
+    {% endif %}
+</div>
+
+<div class="container">
+    <h1>YouTube Audio Downloader</h1>
+    <form action="/download" method="POST">
+        <label for="url">Enter YouTube URL:</label>
+        <input type="text" id="url" name="url" required placeholder="Paste the YouTube video URL here">
+        
+        <label for="format">Select Audio Format:</label>
+        <select id="format" name="format" required>
+            <option value="mp3_320">MP3 320kbps</option>
+            <option value="mp3_192">MP3 192kbps</option>
+            <option value="wav">WAV</option>
+        </select>
+
+        <button type="submit"><i class="fas fa-download"></i> Download</button>
+    </form>
+
+
+    
+    <div class="error" id="error-message"></div>
+</div>
+
+</body>
+</html>
